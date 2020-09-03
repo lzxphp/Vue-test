@@ -1,0 +1,1 @@
+vue + animate.css 实现一个简单的记事本特效
