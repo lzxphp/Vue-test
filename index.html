@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>To Do List</title>
+		<!--引入 基础样式文件 -->
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<!--引入 animate.css库 -->
+		<link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.css" rel="stylesheet">
+		<!--引入 vue.js文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+	</head>
+	<body>
+		<section id="todolist">
+			<!-- 输入区域 -->
+			<header>
+				<h1 class="title">TODO-待办事项列表</h1>
+				<!-- 使用双向数据绑定v-model 来进行输入处理 -->
+				<input type="text" v-model="addText" 
+				:class="{focusBox: isactive}" @focus="test" 
+				@keyup.enter="addInfo" placeholder="输入小目标 回车添加" />
+			</header>
+			<!-- 列表区域 -->
+			<section class="listarea" >
+				<ul>
+					<!-- 在使用ul列表的过渡效果时 需要使用transition-group 同时绑定:key值 -->
+					
+					<transition-group enter-active-class="animated swing" leave-active-class="animated flipOutX">
+					<li v-for="(item,index) in list" :key="index">
+						<!-- 由于索引从 0 开始 需要作为+1处理  -->
+						<span class="pre-num">{{ index+1 }}</span>
+						<label class="inputinfo"> {{ item }}</label>
+						<button class="destory" @click="dele(index)">&#10005</button>
+					</li>
+					</transition-group>
+				</ul>
+			</section>
+			<!-- 统计和清空 -->
+			<footer v-if="list.length != 0">
+				<p class="footFont">
+					<!--统计:本质上展示的内容就是数组的长度  -->
+					<span><strong :style="{color:activeColor}">{{ list.length }} </strong>items</span>
+					<!--清空:本质上把当前的列表数组清空  -->
+					<button class="float-r footFont" @click="clearAll(index)">Clear all</button>
+				</p>
+			</footer>			
+		</section>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el:'#todolist',
+				data:{
+					// 定义代办事项数组
+					list:['Vue.js','Html5','bootstrap4'],
+					// 获取输入的信息
+					addText:'',
+					// 输入框取消聚焦
+					isactive:false,
+					activeColor:'#33ccff'
+				},
+				methods:{
+					// 增加代办列表
+					addInfo (){
+						if(this.addText != ''){
+							if(this.addText.length < 30 ){
+								// 使用数组的push() 属性进行添加处理
+								this.list.push(
+									this.addText
+								);
+								// 将输入框内容清空
+								this.addText='';
+							}else{
+							   alert('信息过长')
+						    }
+						}else{
+							alert('输入不能为空')
+						}
+					},
+					// 删除列表
+					dele (index){
+						// 使用数组的splice(索引下标,删除的数量) 属性进行添加处理
+						this.list.splice(index, 1);
+					},
+					// 清除所有列表
+					clearAll (index){
+						this.list = [];
+					},
+					test (){
+						this.isactive = true;
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
