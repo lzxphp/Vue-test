@@ -53,7 +53,7 @@
 		float: right;
 	}
 	
-	.inputinfo{white-space:normal; word-wrap : break-wordwidth:200px; }
+	.inputinfo{white-space:normal; word-wrap : break-word;width:200px; }
 	.focusBox{
 		box-shadow: 0px 0px 3px red;
 	}
